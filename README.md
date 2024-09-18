@@ -1,2 +1,0 @@
-# ConacTech
-conacteck
