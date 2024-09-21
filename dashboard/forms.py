@@ -1,60 +1,52 @@
 from django import forms
-from . models import *
+from .models import Note, Homework, Todo  # Import the necessary models
+from django.contrib.auth.models import User  # Import User model for registration
 
 from django.contrib.auth.forms import UserCreationForm
-class NoteForm(forms.Form):
+
+class NoteForm(forms.ModelForm):  # Use ModelForm
     class Meta:
         model = Note
-        fields = ['title', 'description', ]
+        fields = ['title', 'description']
 
 class DateInput(forms.DateInput):
     input_type = 'date'
-        
-class HomeworkForm(forms.Form):
+
+class HomeworkForm(forms.ModelForm):  # Use ModelForm
     class Meta:
         model = Homework
-        widgets = {'due' : DateInput()}
+        widgets = {'due': DateInput()}
         fields = ['subject', 'title', 'description', 'due', 'is_finished']
 
 class DashboardForm(forms.Form):
-    text = forms.CharField(max_length=100, label ="Enter your search")
-    
+    text = forms.CharField(max_length=100, label="Enter your search")
 
-class TodoForm(forms.Form):
+class TodoForm(forms.ModelForm):  # Use ModelForm
     class Meta:
         model = Todo
-        fields =['title', 'is_finished', ]
+        fields = ['title', 'is_finished']
 
 class ConversionForm(forms.Form):
     CHOICES = [('length', 'Length'), ('mass', 'Mass')]
-    measurement = forms.ChoiceField( choices=CHOICES, widget=forms.RadioSelect)
+    measurement = forms.ChoiceField(choices=CHOICES, widget=forms.RadioSelect)
 
 class ConversionLengthForm(forms.Form):
-       CHOICES = [('yard', 'Yard'), ('foot', 'Foot')]
-       input = forms.ChoiceField( required=False, label=False, widget=forms.TextInput(
-           attrs ={'type': 'number', 'placehlder':'Enter the Number'}
-       ) )
-       measurement1 = forms.ChoiceField(
-           label='', widget= forms.Select(choice=CHOICES)
-       )
-       measurement2 = forms.ChoiceField(
-           label='', widget= forms.Select(choice=CHOICES)
-       )
+    CHOICES = [('yard', 'Yard'), ('foot', 'Foot')]
+    input = forms.FloatField(required=False, label=False, widget=forms.TextInput(
+        attrs={'type': 'number', 'placeholder': 'Enter the Number'}
+    ))
+    measurement1 = forms.ChoiceField(choices=CHOICES, label='')
+    measurement2 = forms.ChoiceField(choices=CHOICES, label='')
 
-       
-class ConversionMassForm(form.Form):
-       CHOICES = [('pound', 'Pound'), ('kilogram', 'Kilogram  ')]
-       input = forms.ChoiceField( required=False, label=False, widget=forms.TextInput(
-           attrs ={'type': 'number', 'placehlder':'Enter the Number'}
-       ) )
-       measurement1 = forms.ChoiceField(
-           label='', widget= forms.Select(choice=CHOICES)
-       )
-       measurement2 = forms.ChoiceField(
-           label='', widget= forms.Select(choice=CHOICES)
-       )
-
+class ConversionMassForm(forms.Form):
+    CHOICES = [('pound', 'Pound'), ('kilogram', 'Kilogram')]
+    input = forms.FloatField(required=False, label=False, widget=forms.TextInput(
+        attrs={'type': 'number', 'placeholder': 'Enter the Number'}
+    ))
+    measurement1 = forms.ChoiceField(choices=CHOICES, label='')
+    measurement2 = forms.ChoiceField(choices=CHOICES, label='')
 
 class UserRegistrationForm(UserCreationForm):
-     class Meta:
-          fields =['username', 'password', 'password2']
+    class Meta:
+        model = User  # Specify the model
+        fields = ['username', 'password1', 'password2']  # Use password1 and password2

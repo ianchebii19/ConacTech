@@ -1,43 +1,42 @@
 {% extends 'dashboard/base.html' %} 
 {% load static %} 
 {% block content %}
-<section class='text-center container'>
-    <h2>Search Videos in Youtube</h2>
-    <p>search videos and select any video to open in youtube</p>
+
+<section class="text-center container">
+    <h2>Search Videos on YouTube</h2>
+    <p>Search videos and select any video to open on YouTube</p>
     <form action="" method="post">
-
-        {{form}}
+        {% csrf_token %}
+        {{ form.as_p }} <!-- Use form.as_p for consistent form rendering -->
         <input class="btn btn-danger" type="submit" value="Submit">
-    </form><br>
-    {% for result in results %}
-
-    <a href="{{result.link}}" target="_blank">
-        <div class="card">
-            <div class="card-header">
-                <div class="row">
+    </form>
+    <br>
+    {% if results %}
+        {% for rlt in results %}
+        <a href="{{ rlt.link }}" target="_blank">
+            <div class="card mb-3"> <!-- Added mb-3 for spacing between cards -->
+                <div class="row no-gutters"> <!-- Added no-gutters to remove padding between columns -->
                     <div class="col-md-5">
-                        <img class="img-fluid" src="{{result.thumnail}}" alt="">
-
+                        <img class="img-fluid" src="{{ rlt.thumbnail }}" alt="{{ rlt.title }}">
                     </div>
                     <div class="col-md-7">
-                        <h3 class="p-0 m-0">{{result.title}}</h3>
-                        <b>
-                            <u>
-                                <h5 class="p-0 m-0">{{result.channel}}</h5>
-                            </u>
-                        </b>
-                        <h6 class="p-0 m-1">{{result.description}}</h6>
-                        <b>
-                            <h6 class="ml-0 mt-3">{{result.duration}}</h6>
-                            <h6 class="ml-0 mt-1">{{result.views}}</h6>
-                            <h6 class="ml-0 mt-1">{{result.published}}</h6>
-                        </b>
+                        <div class="card-body">
+                            <h3 class="card-title">{{ rlt.title }}</h3>
+                            <h5 class="card-subtitle mb-2 text-muted">{{ rlt.channel }}</h5>
+                            <p class="card-text">{{ rlt.description }}</p>
+                            <p class="card-text">
+                                <small class="text-muted">{{ rlt.duration }} | {{ rlt.views }} | {{ rlt.published }}</small>
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </a>
-    <br>
+        </a>
+        <br>
+        {% endfor %}
+    {% else %}
+        <p>No results found. Please try a different search.</p>
+    {% endif %}
 </section>
 
 {% endblock content %}

@@ -1,30 +1,27 @@
 {% extends 'dashboard/base.html' %} 
 {% load static %}
-{% load crispy_forms_tags%}
+{% load crispy_forms_tags %}
 {% block content %}
 
 <div class="container">
     <div class="row">
         {% for nt in notes %}
         <div class="col-md-3">
-            <a href="{% url 'note._detail' note.id%}">
+            <a href="{% url 'note_detail' nt.id %}">
                 <div class="card">
                     <div class="card-header">{{ nt.title }}</div>
-                    <div class="card-body">{{ nt.description | slice:"0:100" }}</div>
-                    <div class="card-footer mt-auto "><a class="btn btn-primary"href="{% url 'dnotes' note.id  %}">
-                       Delete</a>
+                    <div class="card-body">{{ nt.description|slice:"0:100" }}</div>
+                    <div class="card-footer mt-auto">
+                        <a class="btn btn-primary" href="{% url 'dnotes' nt.id %}">Delete</a>
                     </div>
                 </div>
             </a>
         </div>
-
         {% endfor %}
-       
-        <br><br>
-
     </div>
+    <br><br>
 </div>
-<br><br>
+
 <div class="container">
     <form method="POST">
         {% csrf_token %}
@@ -33,12 +30,9 @@
         </fieldset>
         {{ form }}
         <div class="form-group">
-            <button class="btn btn-outline-info" type="submit">
-                Create
-            </button>
+            <button class="btn btn-outline-info" type="submit">Create</button>
         </div>
     </form>
-    
 </div>
 
 {% endblock content %}

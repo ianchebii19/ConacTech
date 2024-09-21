@@ -1,46 +1,45 @@
 {% extends 'dashboard/base.html' %} 
 {% load static %} 
-{% crispy_form_tags%}
+{% load crispy_forms_tags %}
 {% block content %}
 <div class="container text-center">
     <form method="POST">
-        {% csrf_token%}
+        {% csrf_token %}
         <div class="form-group">
-            <legend class="boder-bottom mb-4">
-        {{form|crispy}}
-
+            <legend class="border-bottom mb-4">
+                {{ form }}
             </legend>
-            <button href="" class="btn btn-outline-info" type="submit">
+            <button class="btn btn-outline-info" type="submit">
                 Select
             </button>
         </div>
-        {% if input %} 
 
+        {% if input %} 
         <fieldset class="form-group">
             <legend class="border-bottom mb-4"></legend>
             <div class="row">
                 <div class="col-md-4">
-                    {{m_form.input| as_crispy_field}}
+                    {{ m_form.input  }}
                 </div>
                 <div class="col-md-4">
-                {{m_form.measurement1| as_crispy_field}}
+                    {{ m_form.measurement1 }}
                 </div>
                 <div class="col-md-4">
-                    {{m_form.measurement2| as_crispy_field}}
+                    {{ m_form.measurement2 }}
                 </div>
-              
             </div>
+        </fieldset>
 
-        </fieldset>
         <fieldset class="form-group">
-            {{answer}}
+            {{ answer }}
         </fieldset>
+
         <div class="form-group">
-            <button href="" class="btn btn-outline-info" type="submit">
+            <button class="btn btn-outline-info" type="submit">
                 Convert
             </button>
         </div>
-        {% endif %}{% endif %}
+        {% endif %}
     </form>
 </div>
 
